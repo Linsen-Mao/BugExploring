@@ -10,7 +10,7 @@ import aiohttp
 import asyncio
 import json
 
-
+from dotenv import load_dotenv
 # from bs4 import BeautifulSoup
 from tqdm import tqdm
 
@@ -67,7 +67,7 @@ class CrawelUtil:
         if component:
             query_tem = "?product={}&component={}&limit={}&offset={}&include_fields=id"
         limit = 10000
-
+        api_key=""
         bug_ids = []
         for j in range(1000):
             offset = limit * j
@@ -321,8 +321,8 @@ class CrawelUtil:
 
     @staticmethod
     def check_github_api_rate_limit():
-        github_token = "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"
-
+        load_dotenv()
+        github_token = os.getenv('GITHUB_TOKEN')
         username = 'wordpress-mobile'
         reponame = 'WordPress-Android'
         # issuenum = 19150
