@@ -62,11 +62,6 @@ class CrawelUtil:
         if not os.path.exists(save_foldername):
             # If it doesn't exist, create it
             os.makedirs(save_foldername)
-        api_key = "aIE0knIYYAuzff5sOiD6PGT4mZZZOEg1NF9G0USu"
-        # r = requests.get(f'https://bugzilla.mozilla.org/rest/login?login=buglinking@gmail.com&password=suyanqi@0924/valid_login?api_key={api_key}')
-        # r = requests.get(f'https://bugzilla.mozilla.org/rest/login?login=buglinking@gmail.com&password=suyanqi@0924/valid_login?api_key={api_key}')
-        # print(r)
-        # print(r.text)
         url = 'https://bugzilla.mozilla.org/rest/bug'
         query_tem = "?product={}&limit={}&offset={}&include_fields=id"
         if component:
