@@ -19,23 +19,33 @@ class StepSplitter:
             instances = Placeholder.STEP_SPLITTER_INSTANCES_WITH_TYPE
         else:
             instances = Placeholder.STEP_SPLITTER_INSTANCES
+
         if instances:
-            for instance_dict in instances:
-                bug = bugs.get_bug_by_id(int(instance_dict['bug_id']))
-                question = StepSplitter.question_for_step_splitting(bug)
-                answer = StepSplitter.answer_for_step_splitting(instance_dict['output'])
-                qa_pairs.append((question, answer))
+            for bug in bugs:
+                # Match bug with corresponding instance data
+                instance_dict = next((instance for instance in instances
+                                      if int(instance['bug_id']) == bug.id), None)
+                if instance_dict:
+                    question = StepSplitter.question_for_step_splitting(bug)
+                    answer = StepSplitter.answer_for_step_splitting(instance_dict['output'])
+                    qa_pairs.append((question, answer))
+
         return qa_pairs
 
     @staticmethod
     def get_session_prompt(with_step_type=False):
-        session_prompt = f"I am a step splitter. " \
-                         f"I can split 'Steps To Reproduce' section into steps, " \
-                         f"which each step is an individual UI operation."
+        session_prompt = (
+            "I am a step splitter. "
+            "I can split the 'Steps To Reproduce' section into steps, where each step is an individual UI operation. "
+            "The output should be a JSON list, where each item is a dictionary containing the following keys:\n"
+            "- 'STEP': A description of the step.\n"
+            "- 'STEP_TYPE': Either 'OPERATION' or 'NON_OPERATION'."
+        )
         if with_step_type:
-            session_prompt = session_prompt + \
-                             f'\nMeanwhile, I can classify each step into ' \
-                             f'{Placeholder.OPERATION} or {Placeholder.NON_OPERATION}.'
+            session_prompt += (
+                "\n\nEach step should be classified into 'OPERATION' or 'NON_OPERATION'. "
+                "Ensure the JSON output is valid and adheres to this format."
+            )
         return session_prompt
 
     @staticmethod
@@ -96,11 +106,12 @@ class SecSplitter:
     def convert_instances_into_qa_pairs(bugs):
         qa_pairs = []
         if Placeholder.SEC_SPLITTER_INSTANCES:
-            for instance_dict in Placeholder.SEC_SPLITTER_INSTANCES:
-                bug = bugs.get_bug_by_id(int(instance_dict['bug_id']))
-                question = SecSplitter.question_for_sec_splitting(bug)
-                answer = SecSplitter.answer_for_sec_splitting(instance_dict['output'])
-                qa_pairs.append((question, answer))
+            for bug in bugs:
+                for instance_dict in Placeholder.SEC_SPLITTER_INSTANCES:
+                    if int(instance_dict['bug_id']) == bug.id:
+                        question = SecSplitter.question_for_sec_splitting(bug)
+                        answer = SecSplitter.answer_for_sec_splitting(instance_dict['output'])
+                        qa_pairs.append((question, answer))
         return qa_pairs
 
     @staticmethod

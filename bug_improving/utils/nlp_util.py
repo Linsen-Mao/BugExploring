@@ -38,6 +38,9 @@ class SentUtil:
     SENT_HAS_CCONJ_LIST = None  # [True, False, ...,True]
     SENT_CONS_DOC_LIST = None  # [cons_doc, cons_doc, ..., cons_doc]
 
+    import re
+
+
     @staticmethod
     def get_sent_has_cconj_list(sents):
         logging.warning("SpaCy NLP for pos ...")
@@ -376,6 +379,18 @@ class NLPUtil:
         for pattern in NLPUtil.PATTERNS_CLEAN:
             matching_rs = pattern.fullmatch(text)  # matching result
             if matching_rs:
+                return True
+        return False
+
+    @staticmethod
+    def is_url(text):
+        """
+        Checks if the given text matches any of the URL patterns.
+        :param text: str
+        :return: bool
+        """
+        for pattern in NLPUtil.PATTERN_URL:
+            if pattern.fullmatch(text):  # Check if the text fully matches the pattern
                 return True
         return False
 

@@ -94,6 +94,8 @@ class ScenarioLinker:
             for instance_dict in Placeholder.SCENARIO_LEVEL_INSTANCES:
                 bug1 = bugs.get_bug_by_id(int(instance_dict['bug_id_pair'][0]))
                 bug2 = bugs.get_bug_by_id(int(instance_dict['bug_id_pair'][1]))
+                if(bug1 == None or bug2 == None):
+                    continue
                 question = ScenarioLinker.question_for_linked_scenario((bug1, bug2))
                 output = copy.deepcopy(instance_dict['output'])
                 answer = ScenarioLinker.answer_for_linked_scenario((bug1, bug2), output)
@@ -104,6 +106,7 @@ class ScenarioLinker:
     def get_session_prompt():
         session_prompt = f"I am a scenario generator. " \
                          f"I can generate new scenarios based on the given scenarios. " \
+                         f"The response must be in JSON format."
             # f"Note that all these scenarios are executed on the Firefox browser."
 
         return session_prompt
@@ -367,14 +370,18 @@ class ScenarioCombiner:
         @param bugs:
         @type bugs:
         @return:
-        @rtype:
+        @rtype:(2729657660, 2729498621)
         """
         qa_pairs = []
         if Placeholder.STEP_LEVEL_INSTANCES:
             for instance_dict in Placeholder.STEP_LEVEL_INSTANCES:
                 bug1 = bugs.get_bug_by_id(int(instance_dict['bug_id_pair'][0]))
                 bug2 = bugs.get_bug_by_id(int(instance_dict['bug_id_pair'][1]))
+                if(bug1==None or bug2==None):
+                    continue
                 question = ScenarioCombiner.question_for_combined_scenario((bug1, bug2), with_step_cluster)
+                if(question==None):
+                    continue
                 output = copy.deepcopy(instance_dict['output'])
                 answer = ScenarioCombiner.answer_for_combined_scenario((bug1, bug2), output)
                 qa_pairs.append((question, answer))
@@ -383,7 +390,8 @@ class ScenarioCombiner:
     @staticmethod
     def get_session_prompt():
         session_prompt = f"I am a scenario generator. " \
-                         f"I can generate new scenarios based on the given scenarios."
+                         f"I can generate new scenarios based on the given scenarios." \
+                         f"The response must be in JSON format."
         return session_prompt
 
     @staticmethod

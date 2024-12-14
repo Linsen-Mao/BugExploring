@@ -1,15 +1,19 @@
-import openai
 # import time
+import os
+
 import backoff
+import openai
+from dotenv import load_dotenv
 
 
 class LLMUtil:
-    OPENAI_API_KEY = "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"
+    load_dotenv()
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
     DAVINCI_MODEL_NAME = "text-davinci-003"
-    TURBO_MODEL_NAME = "gpt-3.5-turbo"
-    GPT4_MODEL_NAME = "gpt-4"
-    TURBO_0301_MODEL_NAME = "gpt-3.5-turbo-0301"
+    TURBO_MODEL_NAME = "gpt-4o-mini-2024-07-18"
+    GPT4_MODEL_NAME = "gpt-4o-mini-2024-07-18"
+    TURBO_0301_MODEL_NAME = "gpt-4o-mini-2024-07-18"
     ROLE_SYSTEM = 'system'
     ROLE_USER = 'user'
     ROLE_ASSISTANT = 'assistant'

@@ -788,6 +788,55 @@ class Placeholder:
         #           "So, there is no login item in about:logins page. "
         #           "It is impossible to execute Scenario2 since it need to have at least one saved login.",
         # "output": None
+
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (2726194433, 2727442768),
+            "output": {
+                CHAINS_OF_THOUGHT:
+                    f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
+                    f"Bug1575516_SCENARIO is to edit a saved login on 'about:logins' page and log into the website of the selected login.\n"
+                    f"For Bug1678633_SCENARIO + Bug1575516_SCENARIO, "
+                    f"since Bug1678633_SCENARIO deletes all data, no saved login is available for Bug1575516_SCENARIO to edit. "
+                    f"Therefore, Bug1678633_SCENARIO + Bug1575516_SCENARIO is infeasible.\n"
+                    f"For Bug1575516_SCENARIO + Bug1678633_SCENARIO, the execution of Bug1575516_SCENARIO (edit a saved login and log into it) will not prevent Bug1678633_SCENARIO (sign out and delete all data) from being executed. "
+                    f"Hence, Bug1575516_SCENARIO + Bug1678633_SCENARIO is feasible. "
+                    f"Then, we consider whether the steps in the connecting part (i.e., the last step in Bug1575516_SCENARIO and the first step in Bug1678633_SCENARIO) are redundant or unnecessary. "
+                    f"The last step of Bug1575516_SCENARIO is [Focus back to the 'about:logins' page]. The first "
+                    f"step of Bug1678633_SCENARIO is [Navigate to the 'about:logins' page.]. "
+                    f"Both of them are going to about:logins page, so remove the first step of Bug1678633_SCENARIO."
+                ,
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: [
+                            'Have at least one saved login'],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Click one of the saved logins.',
+                        #                      'Click on the “Edit” button.',
+                        #                      'Edit the username.',
+                        #                      'Edit the password.',
+                        #                      'Click on the website address.',
+                        #                      'logging in.',
+                        #                      'Focus back to the “about:logins” page.',
+                        #                      'Observe the behavior.',
+                        #                      'Go to the “about:preferences#sync” page using a new tab.',
+                        #                      'Click on the “Sign Out...” button.',
+                        #                      'Check the “Delete data from this device” checkbox from the pop-up.',
+                        #                      'Click on the “Sign Out” button from the pop-up.',
+                        #                      'switch back to the “about:logins” tab.',
+                        #                      'Observe the Login Item area.'],
+                        STEPS_TO_REPRODUCE: [(2726194433, 0, 8), (2727442768, 1, 6)],
+                        EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
+                                           'The password and the username are not updated.',
+                                           'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
+                        ACTUAL_RESULTS: [
+                            'All logins are successfully removed and no state is displayed for the “about:logins” page.']
+                    },
+
+                ]
+            },
+        },
         {
             # (1678633, 1575516): redundant steps, logistic problem
             "bug_id_pair": (1678633, 1575516),
@@ -835,6 +884,68 @@ class Placeholder:
 
                 ]
             },
+        },
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (2726695466, 2727442768),
+            "output": {
+        "CHAINS_OF_THOUGHT": (
+            f"Bug2726695466_SCENARIO involves ensuring that the 'book_advance_payments_in_separate_party_account' setting is correctly handled when booking advance payments.\n"
+            f"Bug2727442768_SCENARIO tests the behavior of the ERPNext application when the 'book_advance_payments_in_separate_party_account' setting is set to false.\n"
+            f"For Bug2726695466_SCENARIO + Bug2727442768_SCENARIO, the scenarios are related since both depend on the same setting. "
+            f"If Bug2727442768_SCENARIO ensures the setting is false, it directly aligns with the requirements of Bug2726695466_SCENARIO, so they can be executed together seamlessly.\n"
+            f"For Bug2727442768_SCENARIO + Bug2726695466_SCENARIO, the execution order does not affect the outcome because the setting remains unchanged across both scenarios.\n"
+            f"Finally, examining the connecting steps between the two scenarios: the last step in Bug2727442768_SCENARIO is [Refresh the advance payment entries list], and the first step of Bug2726695466_SCENARIO involves validating this list. "
+            f"These steps are complementary, so no redundancy is found."
+        ),
+        "SCENARIOS": [
+            {
+                "PRECONDITIONS": [
+                    "The system must have the 'book_advance_payments_in_separate_party_account' setting configured."
+                ],
+                "STEPS_TO_REPRODUCE": [
+                    (2727442768, 0, 3)  # Steps from Bug2727442768_SCENARIO
+                ],
+                "EXPECTED_RESULTS": [
+                    "Reconciliation should be successful, and the outstanding balance should be adjusted accordingly."
+                ],
+                "ACTUAL_RESULTS": [
+                    "Reconciliation is successful, but the outstanding balance is not adjusted because the Party Account is different and the payment entry is not treated as an advance payment entry."
+                ]
+            },
+        ]
+    }
+        },
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (2738500238, 2738459677),
+            "output": {
+        "CHAINS_OF_THOUGHT": (
+            f"Bug2738500238_SCENARIO involves ensuring that the 'book_advance_payments_in_separate_party_account' setting is correctly handled when booking advance payments.\n"
+            f"Bug2738459677_SCENARIO tests the behavior of the ERPNext application when the 'book_advance_payments_in_separate_party_account' setting is set to false.\n"
+            f"For Bug2738500238_SCENARIO + Bug2738459677_SCENARIO, the scenarios are related since both depend on the same setting. "
+            f"If Bug2738459677_SCENARIO ensures the setting is false, it directly aligns with the requirements of Bug2726695466_SCENARIO, so they can be executed together seamlessly.\n"
+            f"For Bug2738459677_SCENARIO + 2738500238_SCENARIO, the execution order does not affect the outcome because the setting remains unchanged across both scenarios.\n"
+            f"Finally, examining the connecting steps between the two scenarios: the last step in Bug2727442768_SCENARIO is [Refresh the advance payment entries list], and the first step of Bug2726695466_SCENARIO involves validating this list. "
+            f"These steps are complementary, so no redundancy is found."
+        ),
+        "SCENARIOS": [
+            {
+                "PRECONDITIONS": [
+                    "The system must have the 'book_advance_payments_in_separate_party_account' setting configured."
+                ],
+                "STEPS_TO_REPRODUCE": [
+                    (2738500238, 0, 3)  # Steps from Bug2727442768_SCENARIO
+                ],
+                "EXPECTED_RESULTS": [
+                    "Reconciliation should be successful, and the outstanding balance should be adjusted accordingly."
+                ],
+                "ACTUAL_RESULTS": [
+                    "Reconciliation is successful, but the outstanding balance is not adjusted because the Party Account is different and the payment entry is not treated as an advance payment entry."
+                ]
+            },
+        ]
+    }
         },
         # {
         #     # (1678633, 1575516): redundant steps    can have a better example, e.g., (1688817, 1460406)
@@ -1156,7 +1267,7 @@ class Placeholder:
     STEP_LEVEL_INSTANCES = [
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (1524153, 1572109),
+            "bug_id_pair": (2738500238, 2738330514),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'"Create New Login" button '
@@ -1177,7 +1288,7 @@ class Placeholder:
                         #                      'Click the "Edit" button.',
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
-                        STEPS_TO_REPRODUCE: [(1572109, 0, 3), (1524153, 2, 3)],
+                        STEPS_TO_REPRODUCE: [(2738500238, 0, 3), (2738330514, 2, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },
@@ -1186,7 +1297,187 @@ class Placeholder:
         },
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (1483786, 1571414),
+            "bug_id_pair": (2738349030, 2738188688),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(2738349030, 0, 3), (2738188688, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (2738349030, 2738034301),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(2738349030, 0, 3), (2738034301, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (2738034301, 2738188688),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(2738034301, 0, 3), (2738188688, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (2727442768, 2726695466),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(2727442768, 0, 3), (2726695466, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (2726194433, 2726194353),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(2726194433, 0, 3), (2726194353, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (2726194353, 2726184969),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(2726194353, 0, 3), (2726184969, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (2726194433, 2726184969),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'since {STEP} 1 - 2 are to open the browser and open a new tab, '
@@ -1213,7 +1504,7 @@ class Placeholder:
                         #                      'Drag the new tab in the empty area of the screen.',
                         #                      'Release the mouse button.',
                         #                      'Observe the behavior.'],
-                        STEPS_TO_REPRODUCE: [(1571414, 0, 3), (1483786, 2, 5)],
+                        STEPS_TO_REPRODUCE: [(2726194433, 0, 3), (2726184969, 2, 5)],
                         EXPECTED_RESULTS: ['The new tab is opened in a new window and moved in that area.',
                                            'Observe the “message_id” of the telemetry ping from the browser console and '
                                            'the "EXTENDED_TRIPLETS_1” value is displayed for the “message_id” argument.'],

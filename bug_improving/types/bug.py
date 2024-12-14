@@ -42,15 +42,31 @@ class Bug:
         self.attachments = attachments
         # self.events = list()
 
+    # def __repr__(self):
+    #     return f'https://bugzilla.mozilla.org/show_bug.cgi?id={self.id} - {self.summary} - ' \
+    #            f'{self.product_component_pair} - {self.tossing_path} - {self.creation_time} - ' \
+    #            f'{self.closed_time} - {self.last_change_time} - {self.attachments}'
+    #
+    # def __str__(self):
+    #     return f'https://bugzilla.mozilla.org/show_bug.cgi?id={self.id} - {self.summary} - ' \
+    #            f'{self.product_component_pair} - {self.tossing_path} - {self.creation_time} - ' \
+    #            f'{self.closed_time} - {self.last_change_time} - {self.attachments}'
+
     def __repr__(self):
-        return f'https://bugzilla.mozilla.org/show_bug.cgi?id={self.id} - {self.summary} - ' \
-               f'{self.product_component_pair} - {self.tossing_path} - {self.creation_time} - ' \
-               f'{self.closed_time} - {self.last_change_time} - {self.attachments}'
+        creation_time_str = self.creation_time.strftime("%Y-%m-%dT%H:%M:%SZ") if self.creation_time else "None"
+        closed_time_str = self.closed_time.strftime("%Y-%m-%dT%H:%M:%SZ") if self.closed_time else "None"
+        last_change_time_str = self.last_change_time.strftime("%Y-%m-%dT%H:%M:%SZ") if self.last_change_time else "None"
+
+        return (f'{self.id} - {self.summary} - {creation_time_str} - '
+                f'{closed_time_str} - {last_change_time_str}')
 
     def __str__(self):
-        return f'https://bugzilla.mozilla.org/show_bug.cgi?id={self.id} - {self.summary} - ' \
-               f'{self.product_component_pair} - {self.tossing_path} - {self.creation_time} - ' \
-               f'{self.closed_time} - {self.last_change_time} - {self.attachments}'
+        creation_time_str = self.creation_time.strftime("%Y-%m-%dT%H:%M:%SZ") if self.creation_time else "None"
+        closed_time_str = self.closed_time.strftime("%Y-%m-%dT%H:%M:%SZ") if self.closed_time else "None"
+        last_change_time_str = self.last_change_time.strftime("%Y-%m-%dT%H:%M:%SZ") if self.last_change_time else "None"
+
+        return (f'{self.id} - {self.summary} - {creation_time_str} - '
+                f'{closed_time_str} - {last_change_time_str}')
 
     @staticmethod
     def from_dict(bug_dict):
@@ -62,21 +78,37 @@ class Bug:
         bug = Bug()
         bug.id = bug_dict['id']
         bug.summary = bug_dict['summary']
-        try:
-            bug.description = Description.from_text(bug, bug_dict['comments'][0]['text'])
-        except:
-            pass
+        comments = bug_dict.get('comments', [])
+        if comments and 'text' in comments[0]:
+            bug.description = Description.from_text(bug, comments[0]['text'])
+        else:
+            # 当没有comments或没有text字段时，给一个默认值描述
+            bug.description = Description.from_text(bug, "No description provided")
         bug.product_component_pair = ProductComponentPair(bug_dict['product'], bug_dict['component'])
         bug.tossing_path = TossingPath(Bug.get_tossing_path(bug_dict['history'], bug.product_component_pair))
 
-        datetime_format = "%Y-%m-%dT%H:%M:%SZ"
-        # datetime_format = "%Y-%m-%d %H:%M:%S"
-        bug.creation_time = datetime.strptime(bug_dict['creation_time'], datetime_format)
+        # datetime_format = "%Y-%m-%d %H:%M:%SZ"
+
+        datetime_format = "%Y-%m-%dT%H:%M:%S"
+        creation_time_str = bug_dict.get('creation_time')
+
+        if creation_time_str:
+            bug.creation_time = datetime.strptime(creation_time_str, datetime_format)
+        else:
+            # 当 creation_time_str 是 None 时，使用当前时间
+            bug.creation_time = datetime.now()
+
         # if bug_dict['cf_last_resolved'] is not None:
         if 'cf_last_resolved' in bug_dict.keys():
             if bug_dict['cf_last_resolved']:
                 bug.closed_time = datetime.strptime(bug_dict['cf_last_resolved'], datetime_format)
-        bug.last_change_time = datetime.strptime(bug_dict['last_change_time'], datetime_format)
+
+        if bug_dict['last_change_time']:
+            bug.last_change_time = datetime.strptime(bug_dict['last_change_time'], datetime_format)
+        else:
+            # 当 creation_time_str 是 None 时，使用当前时间
+            bug.last_change_time = datetime.now()
+        # bug.last_change_time = datetime.strptime(bug_dict['last_change_time'], datetime_format)
 
         # bug.creation_time = dateutil.parser.parse(bug_dict['creation_time'])
         # if 'cf_last_resolved' in bug_dict.keys():
