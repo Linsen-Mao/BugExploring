@@ -44,7 +44,7 @@ class GitHubIssueProcessor:
         status = status_map.get(issue.get("state", "").lower(), "UNKNOWN")
 
         return {
-            "id": issue.get("id"),
+            "id": issue.get("number"),
             "summary": issue.get("title", "No summary available"),
             "description": {"text": description_text},
             "comments": comments,

@@ -788,7 +788,198 @@ class Placeholder:
         #           "So, there is no login item in about:logins page. "
         #           "It is impossible to execute Scenario2 since it need to have at least one saved login.",
         # "output": None
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (44632, 44631),
+            "output": {
+                CHAINS_OF_THOUGHT:
+                    f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
+                    f"Bug1575516_SCENARIO is to edit a saved login on 'about:logins' page and log into the website of the selected login.\n"
+                    f"For Bug1678633_SCENARIO + Bug1575516_SCENARIO, "
+                    f"since Bug1678633_SCENARIO deletes all data, no saved login is available for Bug1575516_SCENARIO to edit. "
+                    f"Therefore, Bug1678633_SCENARIO + Bug1575516_SCENARIO is infeasible.\n"
+                    f"For Bug1575516_SCENARIO + Bug1678633_SCENARIO, the execution of Bug1575516_SCENARIO (edit a saved login and log into it) will not prevent Bug1678633_SCENARIO (sign out and delete all data) from being executed. "
+                    f"Hence, Bug1575516_SCENARIO + Bug1678633_SCENARIO is feasible. "
+                    f"Then, we consider whether the steps in the connecting part (i.e., the last step in Bug1575516_SCENARIO and the first step in Bug1678633_SCENARIO) are redundant or unnecessary. "
+                    f"The last step of Bug1575516_SCENARIO is [Focus back to the 'about:logins' page]. The first "
+                    f"step of Bug1678633_SCENARIO is [Navigate to the 'about:logins' page.]. "
+                    f"Both of them are going to about:logins page, so remove the first step of Bug1678633_SCENARIO."
+                ,
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: [
+                            'Have at least one saved login'],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Click one of the saved logins.',
+                        #                      'Click on the “Edit” button.',
+                        #                      'Edit the username.',
+                        #                      'Edit the password.',
+                        #                      'Click on the website address.',
+                        #                      'logging in.',
+                        #                      'Focus back to the “about:logins” page.',
+                        #                      'Observe the behavior.',
+                        #                      'Go to the “about:preferences#sync” page using a new tab.',
+                        #                      'Click on the “Sign Out...” button.',
+                        #                      'Check the “Delete data from this device” checkbox from the pop-up.',
+                        #                      'Click on the “Sign Out” button from the pop-up.',
+                        #                      'switch back to the “about:logins” tab.',
+                        #                      'Observe the Login Item area.'],
+                        STEPS_TO_REPRODUCE: [(44632, 0, 8), (44631, 1, 6)],
+                        EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
+                                           'The password and the username are not updated.',
+                                           'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
+                        ACTUAL_RESULTS: [
+                            'All logins are successfully removed and no state is displayed for the “about:logins” page.']
+                    },
 
+                ]
+            },
+        },
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (44626, 44616),
+            "output": {
+                CHAINS_OF_THOUGHT:
+                    f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
+                    f"Bug1575516_SCENARIO is to edit a saved login on 'about:logins' page and log into the website of the selected login.\n"
+                    f"For Bug1678633_SCENARIO + Bug1575516_SCENARIO, "
+                    f"since Bug1678633_SCENARIO deletes all data, no saved login is available for Bug1575516_SCENARIO to edit. "
+                    f"Therefore, Bug1678633_SCENARIO + Bug1575516_SCENARIO is infeasible.\n"
+                    f"For Bug1575516_SCENARIO + Bug1678633_SCENARIO, the execution of Bug1575516_SCENARIO (edit a saved login and log into it) will not prevent Bug1678633_SCENARIO (sign out and delete all data) from being executed. "
+                    f"Hence, Bug1575516_SCENARIO + Bug1678633_SCENARIO is feasible. "
+                    f"Then, we consider whether the steps in the connecting part (i.e., the last step in Bug1575516_SCENARIO and the first step in Bug1678633_SCENARIO) are redundant or unnecessary. "
+                    f"The last step of Bug1575516_SCENARIO is [Focus back to the 'about:logins' page]. The first "
+                    f"step of Bug1678633_SCENARIO is [Navigate to the 'about:logins' page.]. "
+                    f"Both of them are going to about:logins page, so remove the first step of Bug1678633_SCENARIO."
+                ,
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: [
+                            'Have at least one saved login'],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Click one of the saved logins.',
+                        #                      'Click on the “Edit” button.',
+                        #                      'Edit the username.',
+                        #                      'Edit the password.',
+                        #                      'Click on the website address.',
+                        #                      'logging in.',
+                        #                      'Focus back to the “about:logins” page.',
+                        #                      'Observe the behavior.',
+                        #                      'Go to the “about:preferences#sync” page using a new tab.',
+                        #                      'Click on the “Sign Out...” button.',
+                        #                      'Check the “Delete data from this device” checkbox from the pop-up.',
+                        #                      'Click on the “Sign Out” button from the pop-up.',
+                        #                      'switch back to the “about:logins” tab.',
+                        #                      'Observe the Login Item area.'],
+                        STEPS_TO_REPRODUCE: [(44626, 0, 8), (44626, 1, 6)],
+                        EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
+                                           'The password and the username are not updated.',
+                                           'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
+                        ACTUAL_RESULTS: [
+                            'All logins are successfully removed and no state is displayed for the “about:logins” page.']
+                    },
+
+                ]
+            },
+        },
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (44622, 44616),
+            "output": {
+                CHAINS_OF_THOUGHT:
+                    f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
+                    f"Bug1575516_SCENARIO is to edit a saved login on 'about:logins' page and log into the website of the selected login.\n"
+                    f"For Bug1678633_SCENARIO + Bug1575516_SCENARIO, "
+                    f"since Bug1678633_SCENARIO deletes all data, no saved login is available for Bug1575516_SCENARIO to edit. "
+                    f"Therefore, Bug1678633_SCENARIO + Bug1575516_SCENARIO is infeasible.\n"
+                    f"For Bug1575516_SCENARIO + Bug1678633_SCENARIO, the execution of Bug1575516_SCENARIO (edit a saved login and log into it) will not prevent Bug1678633_SCENARIO (sign out and delete all data) from being executed. "
+                    f"Hence, Bug1575516_SCENARIO + Bug1678633_SCENARIO is feasible. "
+                    f"Then, we consider whether the steps in the connecting part (i.e., the last step in Bug1575516_SCENARIO and the first step in Bug1678633_SCENARIO) are redundant or unnecessary. "
+                    f"The last step of Bug1575516_SCENARIO is [Focus back to the 'about:logins' page]. The first "
+                    f"step of Bug1678633_SCENARIO is [Navigate to the 'about:logins' page.]. "
+                    f"Both of them are going to about:logins page, so remove the first step of Bug1678633_SCENARIO."
+                ,
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: [
+                            'Have at least one saved login'],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Click one of the saved logins.',
+                        #                      'Click on the “Edit” button.',
+                        #                      'Edit the username.',
+                        #                      'Edit the password.',
+                        #                      'Click on the website address.',
+                        #                      'logging in.',
+                        #                      'Focus back to the “about:logins” page.',
+                        #                      'Observe the behavior.',
+                        #                      'Go to the “about:preferences#sync” page using a new tab.',
+                        #                      'Click on the “Sign Out...” button.',
+                        #                      'Check the “Delete data from this device” checkbox from the pop-up.',
+                        #                      'Click on the “Sign Out” button from the pop-up.',
+                        #                      'switch back to the “about:logins” tab.',
+                        #                      'Observe the Login Item area.'],
+                        STEPS_TO_REPRODUCE: [(44622, 0, 8), (44616, 1, 6)],
+                        EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
+                                           'The password and the username are not updated.',
+                                           'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
+                        ACTUAL_RESULTS: [
+                            'All logins are successfully removed and no state is displayed for the “about:logins” page.']
+                    },
+
+                ]
+            },
+        },
+        {
+            # (1678633, 1575516): redundant steps, logistic problem
+            "bug_id_pair": (44620, 44618),
+            "output": {
+                CHAINS_OF_THOUGHT:
+                    f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
+                    f"Bug1575516_SCENARIO is to edit a saved login on 'about:logins' page and log into the website of the selected login.\n"
+                    f"For Bug1678633_SCENARIO + Bug1575516_SCENARIO, "
+                    f"since Bug1678633_SCENARIO deletes all data, no saved login is available for Bug1575516_SCENARIO to edit. "
+                    f"Therefore, Bug1678633_SCENARIO + Bug1575516_SCENARIO is infeasible.\n"
+                    f"For Bug1575516_SCENARIO + Bug1678633_SCENARIO, the execution of Bug1575516_SCENARIO (edit a saved login and log into it) will not prevent Bug1678633_SCENARIO (sign out and delete all data) from being executed. "
+                    f"Hence, Bug1575516_SCENARIO + Bug1678633_SCENARIO is feasible. "
+                    f"Then, we consider whether the steps in the connecting part (i.e., the last step in Bug1575516_SCENARIO and the first step in Bug1678633_SCENARIO) are redundant or unnecessary. "
+                    f"The last step of Bug1575516_SCENARIO is [Focus back to the 'about:logins' page]. The first "
+                    f"step of Bug1678633_SCENARIO is [Navigate to the 'about:logins' page.]. "
+                    f"Both of them are going to about:logins page, so remove the first step of Bug1678633_SCENARIO."
+                ,
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: [
+                            'Have at least one saved login'],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Click one of the saved logins.',
+                        #                      'Click on the “Edit” button.',
+                        #                      'Edit the username.',
+                        #                      'Edit the password.',
+                        #                      'Click on the website address.',
+                        #                      'logging in.',
+                        #                      'Focus back to the “about:logins” page.',
+                        #                      'Observe the behavior.',
+                        #                      'Go to the “about:preferences#sync” page using a new tab.',
+                        #                      'Click on the “Sign Out...” button.',
+                        #                      'Check the “Delete data from this device” checkbox from the pop-up.',
+                        #                      'Click on the “Sign Out” button from the pop-up.',
+                        #                      'switch back to the “about:logins” tab.',
+                        #                      'Observe the Login Item area.'],
+                        STEPS_TO_REPRODUCE: [(44620, 0, 8), (44618, 1, 6)],
+                        EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
+                                           'The password and the username are not updated.',
+                                           'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
+                        ACTUAL_RESULTS: [
+                            'All logins are successfully removed and no state is displayed for the “about:logins” page.']
+                    },
+
+                ]
+            },
+        },
         {
             # (1678633, 1575516): redundant steps, logistic problem
             "bug_id_pair": (2726194433, 2727442768),
@@ -1289,6 +1480,126 @@ class Placeholder:
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
                         STEPS_TO_REPRODUCE: [(2738500238, 0, 3), (2738330514, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (44632, 44631),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(44632, 0, 3), (44631, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (44626, 44616),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(44626, 0, 3), (44616, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (44622, 44616),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(44622, 0, 3), (44616, 2, 3)],
+                        EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
+                        ACTUAL_RESULTS: ['Unable to cancel.']
+                    },
+                ]
+            },
+        },
+        {
+            # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
+            "bug_id_pair": (44620, 44618),
+            "output": {
+                CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
+                                    f'"Create New Login" button '
+                                    f'from {STEP} "Press the Tab key until the Create New Login button is focused." '
+                                    f'is specific on "about:logins" page. '
+                                    f"{STEPS_TO_REPRODUCE}0 happening on 'about:config' page doesn't have this button, "
+                                    f'so {STEPS_TO_REPRODUCE}0 is not feasible.',
+                                    f'For {STEPS_TO_REPRODUCE}1, after clicking the "Edit" button on "about:logins" page, it has '
+                                    f'text field for editing, '
+                                    f'so "Type something in text filed." and "Try to cancel to edit." can be executed. '
+                                    f'Therefore, {STEPS_TO_REPRODUCE}1 is feasible'],
+                SCENARIOS: [
+                    {
+                        PRECONDITIONS: ["Have a Firefox profile with at least one saved login."],
+                        # STEPS_TO_REPRODUCE: ['Open the latest Nightly browser with the profile from prerequisites.',
+                        #                      'Navigate to "about:logins" page.',
+                        #                      'Select a saved login.',
+                        #                      'Click the "Edit" button.',
+                        #                      'Type something in text filed.',
+                        #                      'Try to cancel to edit.'],
+                        STEPS_TO_REPRODUCE: [(44620, 0, 3), (44618, 2, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },

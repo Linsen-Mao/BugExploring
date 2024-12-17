@@ -85,4 +85,4 @@ def run_github_issue_crawler(owner, repo, max_issue_id, min_issue_id):
     crawler.crawl_and_save_issues()
 
 if __name__ == "__main__":
-    run_github_issue_crawler('frappe', 'erpnext', 44643, 44000)
+    run_github_issue_crawler('frappe', 'erpnext', 44643, 44400)
