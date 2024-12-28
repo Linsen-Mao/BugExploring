@@ -654,7 +654,8 @@ class Description:
         self.steps_to_reproduce = section_dict[Placeholder.STEPS_TO_REPRODUCE]
         self.expected_results = section_dict[Placeholder.EXPECTED_RESULTS]
         self.actual_results = section_dict[Placeholder.ACTUAL_RESULTS]
-        self.notes = section_dict[Placeholder.NOTES]
+        if Placeholder.NOTES in section_dict and section_dict[Placeholder.NOTES]:
+            self.notes = section_dict[Placeholder.NOTES]
 
     def get_steps_to_reproduce_from_dict(self, step_dicts):
         steps = []

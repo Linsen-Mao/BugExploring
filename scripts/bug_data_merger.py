@@ -98,5 +98,8 @@ def run_bug_save_step_processing():
 
     FileUtil.dump_pickle(filtered_bugs_filepath, bugs)
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Increase limit as needed
+    import sys
+
+    sys.setrecursionlimit(5000)
     run_bug_save_step_processing()

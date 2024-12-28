@@ -287,8 +287,9 @@ class CrawelUtil:
                         logging.error(f"Error during fetch: {response}")
                         processed_responses.append({"error": str(response)})
                     else:
-                        processed_responses.append(response)
-
+                        labels = response.get("labels", [])
+                        if any(label.get("name", "").lower() == "bug" for label in labels):
+                            processed_responses.append(response)
                 return processed_responses
 
         except Exception as e:

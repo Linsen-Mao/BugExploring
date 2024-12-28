@@ -41,4 +41,8 @@ def execute_bug_clustering():
     processor.process_and_cluster_bugs()
 
 if __name__ == "__main__":
+    import sys
+
+    sys.setrecursionlimit(5000)  # Increase limit as needed
+
     execute_bug_clustering()

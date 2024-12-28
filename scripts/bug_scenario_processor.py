@@ -106,4 +106,4 @@ def process_and_save_bug_scenarios(seed_bug_id):
     processor.process_bug_scenarios(seed_bug_id)
 
 if __name__ == "__main__":
-    process_and_save_bug_scenarios(44616)
+    process_and_save_bug_scenarios(44199)

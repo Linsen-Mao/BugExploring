@@ -790,7 +790,7 @@ class Placeholder:
         # "output": None
         {
             # (1678633, 1575516): redundant steps, logistic problem
-            "bug_id_pair": (44632, 44631),
+            "bug_id_pair": (44199, 44624),
             "output": {
                 CHAINS_OF_THOUGHT:
                     f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
@@ -825,7 +825,7 @@ class Placeholder:
                         #                      'Click on the “Sign Out” button from the pop-up.',
                         #                      'switch back to the “about:logins” tab.',
                         #                      'Observe the Login Item area.'],
-                        STEPS_TO_REPRODUCE: [(44632, 0, 8), (44631, 1, 6)],
+                        STEPS_TO_REPRODUCE: [(44199, 0, 3), (44624, 1, 3)],
                         EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
                                            'The password and the username are not updated.',
                                            'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
@@ -838,7 +838,7 @@ class Placeholder:
         },
         {
             # (1678633, 1575516): redundant steps, logistic problem
-            "bug_id_pair": (44626, 44616),
+            "bug_id_pair": (44199, 44381),
             "output": {
                 CHAINS_OF_THOUGHT:
                     f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
@@ -873,7 +873,7 @@ class Placeholder:
                         #                      'Click on the “Sign Out” button from the pop-up.',
                         #                      'switch back to the “about:logins” tab.',
                         #                      'Observe the Login Item area.'],
-                        STEPS_TO_REPRODUCE: [(44626, 0, 8), (44626, 1, 6)],
+                        STEPS_TO_REPRODUCE: [(44199, 0, 2), (44381, 1, 2)],
                         EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
                                            'The password and the username are not updated.',
                                            'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
@@ -886,7 +886,7 @@ class Placeholder:
         },
         {
             # (1678633, 1575516): redundant steps, logistic problem
-            "bug_id_pair": (44622, 44616),
+            "bug_id_pair": (44079, 44328),
             "output": {
                 CHAINS_OF_THOUGHT:
                     f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
@@ -921,7 +921,7 @@ class Placeholder:
                         #                      'Click on the “Sign Out” button from the pop-up.',
                         #                      'switch back to the “about:logins” tab.',
                         #                      'Observe the Login Item area.'],
-                        STEPS_TO_REPRODUCE: [(44622, 0, 8), (44616, 1, 6)],
+                        STEPS_TO_REPRODUCE: [(44079, 1, 3), (44328, 1, 3)],
                         EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
                                            'The password and the username are not updated.',
                                            'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
@@ -934,7 +934,7 @@ class Placeholder:
         },
         {
             # (1678633, 1575516): redundant steps, logistic problem
-            "bug_id_pair": (44620, 44618),
+            "bug_id_pair": (44041, 44110),
             "output": {
                 CHAINS_OF_THOUGHT:
                     f"Bug1678633_SCENARIO is to sign out from Firefox Sync, delete all data, return to the 'about:logins' page, and observe the Login Item area.\n"
@@ -969,7 +969,7 @@ class Placeholder:
                         #                      'Click on the “Sign Out” button from the pop-up.',
                         #                      'switch back to the “about:logins” tab.',
                         #                      'Observe the Login Item area.'],
-                        STEPS_TO_REPRODUCE: [(44620, 0, 8), (44618, 1, 6)],
+                        STEPS_TO_REPRODUCE: [(44041, 0, 2), (44110, 1, 2)],
                         EXPECTED_RESULTS: ['The “Discard Unsaved Changes?” pop-up is displayed.',
                                            'The password and the username are not updated.',
                                            'All logins are successfully removed and the "No FxA sync" state of the about:logins page is displayed.'],
@@ -1458,7 +1458,7 @@ class Placeholder:
     STEP_LEVEL_INSTANCES = [
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (2738500238, 2738330514),
+            "bug_id_pair": (44199, 44624),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'"Create New Login" button '
@@ -1479,7 +1479,7 @@ class Placeholder:
                         #                      'Click the "Edit" button.',
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
-                        STEPS_TO_REPRODUCE: [(2738500238, 0, 3), (2738330514, 2, 3)],
+                        STEPS_TO_REPRODUCE: [(44199, 0, 2), (44624, 1, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },
@@ -1488,7 +1488,7 @@ class Placeholder:
         },
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (44632, 44631),
+            "bug_id_pair": (44199, 44381),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'"Create New Login" button '
@@ -1509,7 +1509,7 @@ class Placeholder:
                         #                      'Click the "Edit" button.',
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
-                        STEPS_TO_REPRODUCE: [(44632, 0, 3), (44631, 2, 3)],
+                        STEPS_TO_REPRODUCE: [(44199, 0, 3), (44381, 2, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },
@@ -1518,7 +1518,7 @@ class Placeholder:
         },
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (44626, 44616),
+            "bug_id_pair": (44079, 44328),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'"Create New Login" button '
@@ -1539,7 +1539,7 @@ class Placeholder:
                         #                      'Click the "Edit" button.',
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
-                        STEPS_TO_REPRODUCE: [(44626, 0, 3), (44616, 2, 3)],
+                        STEPS_TO_REPRODUCE: [(44079, 0, 3), (44328, 2, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },
@@ -1548,7 +1548,7 @@ class Placeholder:
         },
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (44622, 44616),
+            "bug_id_pair": (44041, 44110),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'"Create New Login" button '
@@ -1569,7 +1569,7 @@ class Placeholder:
                         #                      'Click the "Edit" button.',
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
-                        STEPS_TO_REPRODUCE: [(44622, 0, 3), (44616, 2, 3)],
+                        STEPS_TO_REPRODUCE: [(44041, 0, 3), (44110, 2, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },
@@ -1578,7 +1578,7 @@ class Placeholder:
         },
         {
             # (1524153, 1572109): shared step generated one un-executed scenario and one executed scenario
-            "bug_id_pair": (44620, 44618),
+            "bug_id_pair": (44019, 44536),
             "output": {
                 CHAINS_OF_THOUGHT: [f'For {STEPS_TO_REPRODUCE}0, '
                                     f'"Create New Login" button '
@@ -1599,7 +1599,7 @@ class Placeholder:
                         #                      'Click the "Edit" button.',
                         #                      'Type something in text filed.',
                         #                      'Try to cancel to edit.'],
-                        STEPS_TO_REPRODUCE: [(44620, 0, 3), (44618, 2, 3)],
+                        STEPS_TO_REPRODUCE: [(44019, 0, 3), (44536, 2, 3)],
                         EXPECTED_RESULTS: ['The value will be restored to the previous value.'],
                         ACTUAL_RESULTS: ['Unable to cancel.']
                     },
