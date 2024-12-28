@@ -161,12 +161,12 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-.txt
 .prof
-.json
 .zip
 
 client/
 test/
 package-lock.json
 package.json
+!*.json
+
