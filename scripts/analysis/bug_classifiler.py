@@ -64,8 +64,8 @@ class IssueProcessor:
 
                         df_all, df_classification = await self.parse_issues_to_dataframe(issues)
 
-                        self.save_to_csv(df_all, "./erpnext_issues_all.csv")
-                        self.save_to_csv(df_classification, "./erpnext_issues_classification.csv")
+                        self.save_to_csv(df_all, "../data-analysis/erpnext_issues_all.csv")
+                        self.save_to_csv(df_classification, "../data-analysis/erpnext_issues_classification.csv")
 
                         overall_progress.set_description(
                             f"Fetching and processing issues #{current_issue_number or 'latest'}")

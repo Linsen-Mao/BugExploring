@@ -1,12 +1,6 @@
-from scripts.github_issue_crawler import run_github_issue_crawler
-from scripts.merge_issue_pul_request_processor import execute_issue_pull_request_processing
-from scripts.github_issue_processor import process_and_filter_github_issues
-from scripts.bug_clustering_processor import execute_bug_clustering
-from scripts.bug_data_merger import run_bug_save_step_processing
-from scripts.bug_save_section_processor import run_bug_save_section_processing
-from scripts.bug_scenario_processor import process_and_save_bug_scenarios
-from scripts.bug_section_processor import run_bug_processing
-from scripts.bug_split_processor import run_bug_split_processing
+from scripts.workflow.bug_clustering_processor import execute_bug_clustering
+from scripts.workflow.bug_data_merger import run_bug_save_step_processing
+from scripts.workflow.bug_scenario_processor import process_and_save_bug_scenarios
 
 if __name__ == "__main__":
     owner = 'frappe'
