@@ -1,5 +1,4 @@
 import os
-
 import aiohttp
 import pandas as pd
 import openai
@@ -26,65 +25,60 @@ class IssueProcessor:
     def __init__(self, max_concurrent_tasks=10):
         self.semaphore = asyncio.Semaphore(max_concurrent_tasks)
 
+    async def fetch_issue(self, session, issue_number=None):
+        url = f"{BASE_URL}/{issue_number}" if issue_number else BASE_URL
+        async with self.semaphore:
+            try:
+                async with session.get(url, headers=HEADERS) as response:
+                    if response.status != 200:
+                        print(f"Error: {response.status}, {await response.text()} (Issue #{issue_number})")
+                        return None
+                    return await response.json()
+            except Exception as e:
+                print(f"Exception while fetching issue #{issue_number}: {str(e)}")
+                return None
+
     async def fetch_issues_with_limit(self, limit, start_issue_number=None):
         fetched_count = 0
         current_issue_number = start_issue_number
 
         async with aiohttp.ClientSession() as session:
-            while fetched_count < limit:
-                tasks = []
+            with tqdm(total=limit, desc=f"Fetching and processing issues {current_issue_number}") as overall_progress:
+                while fetched_count < limit:
+                    try:
+                        if current_issue_number:
+                            data = await self.fetch_issue(session, current_issue_number)
+                            if not data:  # Skip if no data is returned
+                                current_issue_number -= 1
+                                continue
+                            issues = [data]
+                            current_issue_number -= 1
+                        else:
+                            issues = await self.fetch_issue(session)
+                            if not issues or not isinstance(issues, list):
+                                break
 
-                # Build the URL based on the current issue number
-                if current_issue_number:
-                    url = f"{BASE_URL}/{current_issue_number}"
-                else:
-                    url = BASE_URL
+                        remaining = limit - fetched_count
+                        issues = issues[:remaining]
+                        fetched_count += len(issues)
 
-                print(f"Fetching issues starting from #{current_issue_number or 'latest'}...")
+                        df_all, df_classification = await self.parse_issues_to_dataframe(issues)
 
-                async with self.semaphore:
-                    task = session.get(url, headers=HEADERS)
-                    tasks.append(task)
+                        self.save_to_csv(df_all, "./erpnext_issues_all.csv")
+                        self.save_to_csv(df_classification, "./erpnext_issues_classification.csv")
 
-                responses = await asyncio.gather(*tasks)
+                        overall_progress.set_description(
+                            f"Fetching and processing issues #{current_issue_number or 'latest'}")
+                        overall_progress.update(len(issues))
 
-                for response in responses:
-                    if response.status != 200:
-                        print(f"Error: {response.status}, {await response.text()}")
-                        continue
+                        if not current_issue_number or fetched_count >= limit:
+                            break
+                    except Exception as e:
+                        print(f"Exception while processing issue #{current_issue_number}: {str(e)}")
+                        if current_issue_number:
+                            current_issue_number -= 1  # Skip the problematic issue
 
-                    data = await response.json()
-
-                    # If data is empty, stop fetching
-                    if not data:
-                        break
-
-                    if isinstance(data, list):
-                        # Batch fetched when no specific issue number provided
-                        batch_issues = data[:limit - fetched_count]
-                        fetched_count += len(batch_issues)
-                    else:
-                        # Single issue fetched when specific issue number provided
-                        batch_issues = [data]
-                        fetched_count += 1
-                        current_issue_number -= 1  # Decrease issue number
-
-                    if fetched_count > limit:
-                        break
-
-                    # Process the fetched issues
-                    print(f"Processing fetched issues...")
-                    df_all, df_classification = await self.parse_issues_to_dataframe(batch_issues)
-
-                    self.save_to_csv(df_all, "./erpnext_issues_all.csv")
-                    self.save_to_csv(df_classification, "./erpnext_issues_classification.csv")
-                    print(f"Saved fetched issues.")
-
-                # Stop fetching if reached the earliest issue
-                if current_issue_number is not None and current_issue_number <= 0:
-                    break
-
-        print("Finished fetching and processing issues.")
+            print("Finished fetching and processing issues.")
 
     async def classify_issue_and_analyze(self, title, body, label, is_pull_request):
         if not title or not body:
@@ -125,21 +119,21 @@ class IssueProcessor:
         ]
 
         prompt = f"""
-        
+
         Title: {title}
         Description: {body}
         Labels: {label}
-        
+
         ### Fields to Extract
         Extract the following fields if they exist. If not present, leave them blank:
         - preconditions
         - steps_to_reproduce
         - expected_results
         - actual_results
-        
+
         Classify the following {'pull request' if is_pull_request else 'issue'} into one of these categories and identify the most relevant component. 
         Provide specific reasons for both category and component selections. If not applicable, leave the field blank.
-        
+
         ### Categories
         - **UI/UX**: Problems related to the graphical user interface (GUI) and user experience without affecting business logic or database data. Examples:
           - Layout, alignment, or design issues.
@@ -171,7 +165,7 @@ class IssueProcessor:
           - Minor inconsistencies or rare edge cases with limited impact.
 
         {"If this pull request addresses an issue, classify it based on the issue it resolves. If it introduces a new feature or enhancement, classify it based on the relevant category." if is_pull_request else ""}
-        
+
         ### Components
         Identify the most relevant component based on the issue description and the provided labels. Follow the steps below:
         Labels: {label}
@@ -299,7 +293,7 @@ class IssueProcessor:
                          "content": "You classify issues and extract relevant fields with detailed reasoning."},
                         {"role": "user", "content": prompt}
                     ],
-                    max_tokens=800
+                    max_tokens=2000
                 )
                 content = response['choices'][0]['message']['content'].strip()
                 content = content.strip().lstrip('```json').rstrip('```').strip()
@@ -334,17 +328,15 @@ class IssueProcessor:
     async def parse_issues_to_dataframe(self, issues):
         all_data = []
         classifications = []
-        progress_bar = tqdm(total=len(issues), desc="Processing issues")
-
         async def process_issue(issue):
             is_pull_request = "pull_request" in issue
             labels = [label["name"] for label in issue.get("labels", [])]
 
-            # Basic issue data remains the same
             issue_full_data = {
                 "id": issue.get("id"),
                 "number": issue.get("number"),
                 "title": issue.get("title"),
+                "body": issue.get("body",""),
                 "state": issue.get("state"),
                 "created_at": issue.get("created_at"),
                 "updated_at": issue.get("updated_at"),
@@ -354,7 +346,6 @@ class IssueProcessor:
                 "labels": labels
             }
 
-            # Get analysis with new structure
             analysis = await self.classify_issue_and_analyze(
                 issue.get("title"),
                 issue.get("body", ""),
@@ -362,7 +353,6 @@ class IssueProcessor:
                 is_pull_request
             )
 
-            # Updated classification dictionary to match new structure
             classification = {
                 "number": issue.get("number"),
                 "category": analysis["category"],
@@ -376,9 +366,6 @@ class IssueProcessor:
                 "labels": ", ".join(labels)
             }
 
-            tqdm.write(f"Processed issue #{issue.get('number')}: {issue.get('title')}")
-            progress_bar.update(1)
-            progress_bar.refresh()  # Ensure the bar stays up-to-date
             return issue_full_data, classification
 
         tasks = [process_issue(issue) for issue in issues]
@@ -388,9 +375,6 @@ class IssueProcessor:
             all_data.append(issue_data)
             classifications.append(classification_data)
 
-        progress_bar.close()
-
-        # Create DataFrames
         issues_df = pd.DataFrame(all_data)
         classifications_df = pd.DataFrame(classifications)
 
@@ -408,7 +392,8 @@ class IssueProcessor:
         print(f"Fetching up to {limit} issues from ERPNext repository...")
         await self.fetch_issues_with_limit(limit, start_issue_number=start_issue_number)
 
+
 if __name__ == "__main__":
     processor = IssueProcessor()
-    start_number = 39990  # Example starting issue number
-    asyncio.run(processor.main(limit=10, start_issue_number=start_number))
+    start_number = 39994
+    asyncio.run(processor.main(limit=4000, start_issue_number=start_number))
